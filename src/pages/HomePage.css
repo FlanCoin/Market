@@ -1,0 +1,289 @@
+/* src/pages/HomePage.css */
+
+/* Estilos para el botón de regreso */
+.back-button {
+    font-family: "Press Start 2P", sans-serif; /* Fuente estilo Minecraft */
+    font-size: 12px; /* Tamaño del texto más pequeño */
+    color: #ffffff; /* Color del texto */
+    text-transform: uppercase; /* Texto en mayúsculas */
+    background-color: #333333; /* Fondo oscuro más suave */
+    border: 2px solid #4caf50; /* Borde verde más sutil */
+    border-radius: 8px; /* Bordes redondeados */
+    padding: 8px 16px; /* Espaciado interior reducido */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); /* Sombra suave */
+    transition: background-color 0.3s ease, transform 0.3s ease,
+      box-shadow 0.3s ease; /* Transiciones suaves */
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    position: absolute; /* Posicionamiento absoluto */
+    left: 20px; /* Alinear a la izquierda */
+    top: 20px; /* Alinear al borde superior */
+    z-index: 1000; /* Asegura que el botón esté por encima de otros elementos */
+  }
+  
+  .back-button:hover {
+    background-color: #444444; /* Cambiar color de fondo al hacer hover */
+    border-color: #66bb6a; /* Borde verde más brillante al hacer hover */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.6); /* Sombra más pronunciada en hover */
+    transform: translateY(-2px); /* Efecto de elevación */
+  }
+  
+  .back-button:active {
+    background-color: #333333; /* Color de fondo al hacer clic */
+    border-color: #4caf50; /* Mantener borde verde al hacer clic */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4); /* Sombra reducida al hacer clic */
+    transform: translateY(0); /* Sin desplazamiento al hacer clic */
+  }
+  
+  .back-button svg {
+    fill: #4caf50; /* Color del icono */
+  }
+  
+  /* Estilos para el título de sección */
+  .section-title {
+    font-family: "Press Start 2P", sans-serif; /* Fuente estilo Minecraft */
+    font-size: 24px; /* Tamaño del texto */
+    color: #ffffff; /* Color del texto */
+    text-transform: uppercase; /* Texto en mayúsculas */
+    background: rgba(46, 45, 45, 0.712); /* Fondo con opacidad */
+    border: 2px solid #4caf50; /* Borde verde */
+    border-radius: 8px; /* Bordes redondeados */
+    padding: 10px 20px; /* Espaciado interior */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); /* Sombra suave */
+    transition: background 0.3s ease, color 0.3s ease, box-shadow 0.3s ease; /* Transiciones suaves */
+  }
+  
+  .section-title:hover {
+    background: rgba(0, 0, 0, 0.7); /* Fondo más oscuro al hacer hover */
+    color: #66bb6a; /* Color del texto al hacer hover */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.6); /* Sombra más pronunciada en hover */
+  }
+  
+  /* Fondo para la sección de cartas */
+  .nft-background {
+    background: #2E2E2E; /* Fondo general de la página */
+    min-height: 100vh; /* Asegura que el fondo cubra al menos la altura completa de la ventana */
+    padding: 20px; /* Espaciado interno para asegurar que el contenido no esté pegado a los bordes */
+    background-attachment: fixed; /* Fija el fondo para que no se desplace con el contenido */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  /* Estilos para las cartas de NFT */
+  .nft-card {
+    position: relative;
+    width: 300px;
+    height: 400px;
+    background: #2E2E2E; /* Fondo oscuro con el mismo color que la página */
+    border-radius: 12px;
+    overflow: hidden;
+    transition: box-shadow 0.3s, border 0.3s;
+    border: 2px solid transparent; /* Borde transparente por defecto */
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.8); /* Sombra más pronunciada */
+    cursor: pointer;
+    perspective: 1000px; /* Necesario para el efecto de giro */
+  }
+  
+  /* Estilos para el contenedor interno de la tarjeta */
+  .nft-card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: transform 0.3s; /* Animación más rápida */
+  }
+  
+  /* Contenedor superior para la rareza y el precio */
+  .nft-card .nft-header {
+    display: flex;
+    justify-content: space-between; /* Distribuye espacio entre rareza y precio */
+    align-items: center; /* Alinea verticalmente */
+    padding: 10px;
+    color: #eee; /* Color de texto claro */
+    background: #444; /* Fondo más oscuro para el encabezado */
+    border-bottom: 2px solid #555; /* Línea separadora */
+    font-size: 1rem; /* Tamaño de texto más pequeño */
+    border-radius: 8px; /* Bordes redondeados */
+  }
+  
+  .nft-card .nft-header .rarity {
+    font-weight: bold;
+    font-size: 1.2rem;
+    color: var(--rarity-color); /* Color de la rareza */
+  }
+  
+  .nft-card .nft-header .price {
+    font-weight: bold;
+    font-size: 1.3rem; /* Tamaño del precio */
+    color: #ffeb3b; /* Color amarillo del precio */
+  }
+  
+  /* Estilo para la imagen de la NFT */
+  .nft-card .nft-image {
+    width: 100%;
+    border-bottom: 3px solid #555; /* Contorno sutil debajo de la imagen */
+    border-radius: 8px;
+    overflow: hidden;
+    position: relative;
+    margin: 10px 0; /* Espacio entre la imagen y el contenido de la información */
+    box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.5); /* Sombra interna */
+  }
+  
+  /* Información de la NFT debajo de la imagen */
+  .nft-card .nft-info {
+    padding: 16px;
+    color: #eee;
+    border: 2px solid #333; /* Contorno interior para la sección de información */
+    border-radius: 8px;
+    background: #333; /* Fondo ligeramente más claro para el área de información */
+    margin-top: auto; /* Asegura que la información quede al final de la carta */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Espacia contenido */
+  }
+  
+  /* Descripción de la NFT */
+  .nft-card .nft-info .description {
+    margin-bottom: 16px; /* Espacio debajo de la descripción */
+    font-size: 0.9rem; /* Tamaño de texto más pequeño */
+  }
+  
+  /* Parte frontal de la tarjeta */
+  .nft-card-front {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    background-color: #333;
+    border-radius: 12px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.8);
+    cursor: pointer;
+  }
+  
+  /* Parte trasera de la tarjeta */
+  .nft-card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    transform: rotateY(180deg);
+    background-color: #444;
+    border-radius: 12px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.8);
+    padding: 16px;
+  }
+  
+  /* Línea separadora futurista */
+  .separator {
+    border-top: 2px solid #166534; /* Verde oscuro */
+    margin: 16px 0;
+    position: relative;
+  }
+  
+  .separator::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #166534, transparent);
+    animation: neonEffect 1.5s infinite alternate;
+  }
+  
+  /* Animación del efecto neón */
+  @keyframes neonEffect {
+    from {
+      opacity: 0.5;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  
+  /* Estilos para el botón de compra */
+  .buy-now-button {
+    display: inline-block;
+    padding: 10px 24px; /* Ajustar el padding para hacer el botón más grande */
+    background-color: #166534; /* Azul neón */
+    color: #fff;
+    border: 2px solid #166534; /* Borde del mismo color */
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: bold;
+    text-align: center;
+    text-transform: uppercase;
+    transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 20px auto; /* Centra el botón horizontalmente y le da un margen en la parte superior e inferior */
+  }
+  
+  .buy-now-button:hover {
+    background-color: #1d8348; /* Azul más claro en hover */
+    box-shadow: 0 0 10px #166534, 0 0 20px #166534, 0 0 30px #166534; /* Brillo más fuerte */
+    transform: translateY(-2px); /* Eleva el botón ligeramente */
+  }
+  
+  .buy-now-button:active {
+    transform: translateY(0); /* Devuelve el botón a su posición original */
+  }
+  
+  /* Estilos para los iconos */
+  .text-green-400 {
+    color: #22c55e; /* Verde brillante */
+  }
+  
+  .text-red-400 {
+    color: #ef4444; /* Rojo brillante */
+  }
+  
+  .text-yellow-400 {
+    color: #facc15; /* Amarillo brillante */
+  }
+  
+  /* Ajustes generales */
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: "Arial", sans-serif; /* Ajusta la fuente a 'Arial' */
+    background: #2E2E2E; /* Cambia el fondo a #2E2E2E */
+    color: #eee; /* Cambia el color del texto a un tono claro */
+  }
+  
+  .container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+  
+  .navbar,
+  .footer {
+    background: #333;
+    padding: 1rem;
+    text-align: center;
+  }
+  
+  .main {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+  }
+  

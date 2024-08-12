@@ -1,0 +1,60 @@
+/* src/pages/LoadingScreen.css */
+
+/* Estilo para la pantalla de carga */
+.loading-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  position: relative;
+  overflow: hidden;
+  background: url('../assets/background-image.jpg') no-repeat center center/cover; /* Imagen de fondo */
+  background-position: 10% center; /* Desplazar la imagen hacia la derecha */
+}
+
+/* Capa de opacidad sobre la imagen de fondo */
+.loading-screen::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6); /* Fondo negro con opacidad del 60% */
+  z-index: 0;
+}
+
+/* Estilo para la barra de carga */
+.progress-bar {
+  width: 100%;
+  max-width: 300px; /* Ancho máximo de la barra de carga */
+  height: 20px; /* Altura de la barra de carga */
+  background-color: #444; /* Color de fondo gris oscuro para contraste */
+  border-radius: 10px;
+  margin-top: 20px;
+  position: relative;
+  overflow: hidden; /* Asegura que el relleno no se salga de los bordes */
+}
+
+/* Estilo para el llenado de la barra de carga */
+.progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #76c7c0, #4caf50); /* Gradiente verde claro a verde oscuro */
+  border-radius: 10px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transition: width 0.03s linear; /* Transición suave y rápida */
+}
+
+/* Estilo para el texto de la carga */
+.progress-text {
+  position: absolute;
+  width: 100%;
+  text-align: center;
+  line-height: 20px; /* Debe ser igual a la altura de la barra */
+  color: #fff; /* Color del texto en blanco para buen contraste */
+  font-weight: bold;
+  z-index: 2; /* Asegura que el texto esté sobre el fondo */
+}
