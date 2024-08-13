@@ -6,19 +6,19 @@ import { FaTwitter, FaYoutube, FaTelegramPlane, FaTiktok, FaDiscord } from 'reac
 function Footer() {
   return (
     <footer className="bg-gray-800 text-gray-200 py-4">
-      <div className="flex flex-col items-center px-8 max-w-full">
+      <div className="flex flex-col items-center px-4 sm:px-8 max-w-full">
         {/* Contenedor principal con flex-col para centrar el texto y los iconos */}
-        <div className="flex items-center justify-between w-full">
+        <div className="flex flex-col sm:flex-row items-center justify-between w-full">
           {/* Derechos reservados alineados a la izquierda */}
-          <div className="text-sm">
+          <div className="text-sm text-center sm:text-left mb-2 sm:mb-0">
             &copy; {new Date().getFullYear()} Flancraft. Todos los derechos reservados.
           </div>
           {/* Texto MARKETPLACE centrado */}
-          <div className="text-2xl font-minecraft text-[#111827]">
+          <div className="flex-1 text-lg sm:text-2xl font-minecraft text-[#050D14] text-center">
             MARKETPLACE
           </div>
           {/* Iconos de redes sociales alineados a la derecha */}
-          <div className="flex space-x-4 text-2xl">
+          <div className="flex space-x-4 text-xl sm:text-2xl mt-2 sm:mt-0">
             <a
               href="https://x.com/flancoin_token"
               target="_blank"

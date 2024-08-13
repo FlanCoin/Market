@@ -29,6 +29,7 @@ header {
   border-bottom: 1px solid #374151; /* Línea inferior */
   display: flex;
   align-items: center;
+  flex-wrap: wrap; /* Asegura que los elementos no se desborden en pantallas pequeñas */
 }
 
 header img {
@@ -158,4 +159,53 @@ main {
   border-radius: 16px;
   overflow: hidden;
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+}
+
+/* Estilos responsivos */
+
+/* Estilos para pantallas pequeñas (móviles) */
+@media (max-width: 640px) {
+  header {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  header img {
+    margin-left: 0; /* Elimina el margen izquierdo en pantallas pequeñas */
+  }
+
+  main {
+    padding: 1rem;
+  }
+
+  aside {
+    padding: 1rem;
+  }
+}
+
+/* Estilos para pantallas medianas (tabletas) */
+@media (min-width: 641px) and (max-width: 1024px) {
+  header {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  main {
+    padding: 1.5rem;
+  }
+
+  aside {
+    padding: 1.5rem;
+  }
+}
+
+/* Estilos para pantallas grandes (escritorios) */
+@media (min-width: 1025px) {
+  main {
+    padding: 2rem;
+  }
+
+  aside {
+    padding: 2rem;
+  }
 }

@@ -43,11 +43,22 @@ export default function Modal({ isOpen, onClose, nft }) {
         <div
           style={{
             flex: '40%',
-            backgroundImage: `url(/images/compra.png)`,
+            backgroundImage: `url(${nft.image})`, // Imagen del NFT
             backgroundSize: 'cover',
             backgroundPosition: 'center',
           }}
-        />
+        >
+          <img
+            src={nft.image}
+            alt={nft.name}
+            style={{
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+              borderRadius: '16px',
+            }}
+          />
+        </div>
         {/* Lado derecho con la información y botón */}
         <div style={{ flex: '60%', padding: '20px', display: 'flex', flexDirection: 'column' }}>
           {/* Parte superior */}
@@ -61,8 +72,7 @@ export default function Modal({ isOpen, onClose, nft }) {
             }}
           >
             <h2 style={{ margin: 0, fontSize: '1.5rem' }}>{nft.name}</h2>
-            <p style={{ fontSize: '1.25rem' }}>Descripción del producto</p>
-            <p style={{ fontSize: '1.25rem', fontWeight: 'bold' }}>Precio: ${nft.price}</p>
+            <p style={{ fontSize: '1.25rem' }}>{nft.description}</p> {/* Descripción del NFT */}
           </div>
           {/* Parte inferior */}
           <div
@@ -77,16 +87,6 @@ export default function Modal({ isOpen, onClose, nft }) {
               justifyContent: 'center',
             }}
           >
-            <img
-              src={nft.image}
-              alt={nft.name}
-              style={{
-                width: '100%',
-                maxWidth: '200px',
-                borderRadius: '12px',
-                marginBottom: '10px',
-              }}
-            />
             <button
               onClick={() => {
                 // Lógica para comprar el lote
@@ -104,7 +104,7 @@ export default function Modal({ isOpen, onClose, nft }) {
                 transition: 'background-color 0.3s ease',
               }}
             >
-              Comprar lote
+              Comprar por ${nft.price} flanes
             </button>
           </div>
         </div>
