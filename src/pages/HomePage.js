@@ -1,12 +1,14 @@
 // src/pages/HomePage.js
 
 import React, { useState, useEffect } from "react";
-import { NFTCard } from "./NFTCard";
+import NFTCard from './NFTCard'; // Asegúrate de que la ruta sea correcta
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 import { FaBuilding, FaDragon, FaPaw, FaArrowLeft } from "react-icons/fa";
 import { motion } from "framer-motion";
 import LoadingScreen from "./LoadingScreen";
+import nftData from '../data/nftData'; // Importa nftData desde el archivo
+import RarityFilter from '../components/RarityFilter'; // Importa el componente de filtro
 import './HomePage.css'; // Importa el archivo CSS aquí
 
 const categories = [
@@ -15,50 +17,27 @@ const categories = [
     name: "Construcciones",
     icon: <FaBuilding className="text-green-400 text-6xl" />,
     image: "/images/construcciones.jpg",
+    clickable: false, // No se puede hacer clic
   },
   {
     id: 2,
     name: "Monturas",
     icon: <FaDragon className="text-red-400 text-6xl" />,
     image: "/images/monturas.jpg",
+    clickable: true,
   },
   {
     id: 3,
     name: "Mascotas",
     icon: <FaPaw className="text-yellow-400 text-6xl" />,
     image: "/images/mascotas.jpg",
+    clickable: false, // No se puede hacer clic
   },
 ];
 
-const nftData = {
-  Construcciones: Array.from({ length: 20 }, (_, index) => ({
-    id: index + 1,
-    image: `/images/nft${(index % 2) + 1}.png`,
-    name: `Construcción ${index + 1}`,
-    description: "Una construcción impresionante para tu mundo de Minecraft.",
-    price: "100 FLAN",
-    rarity: ["Common", "Uncommon", "Rare", "Epic", "Legendary"][Math.floor(Math.random() * 5)], // Asignar rarezas aleatorias
-  })),
-  Monturas: Array.from({ length: 20 }, (_, index) => ({
-    id: index + 1,
-    image: `/images/nft${(index % 2) + 1}.png`,
-    name: `Montura ${index + 1}`,
-    description: "Una montura para volar sobre dragones.",
-    price: "150 FLAN",
-    rarity: ["Common", "Uncommon", "Rare", "Epic", "Legendary"][Math.floor(Math.random() * 5)], // Asignar rarezas aleatorias
-  })),
-  Mascotas: Array.from({ length: 20 }, (_, index) => ({
-    id: index + 1,
-    image: `/images/nft${(index % 2) + 1}.png`,
-    name: `Mascota ${index + 1}`,
-    description: "Una mascota para tu aventura.",
-    price: "80 FLAN",
-    rarity: ["Common", "Uncommon", "Rare", "Epic", "Legendary"][Math.floor(Math.random() * 5)], // Asignar rarezas aleatorias
-  })),
-};
-
 export default function HomePage() {
   const [selectedCategory, setSelectedCategory] = useState(null);
+  const [selectedRarity, setSelectedRarity] = useState('');
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -70,11 +49,18 @@ export default function HomePage() {
   }, []);
 
   const handleCategoryClick = (category) => {
-    setSelectedCategory(category);
+    if (category.clickable) {
+      setSelectedCategory(category.name);
+      setSelectedRarity(''); // Resetear filtro al cambiar categoría
+    }
   };
 
   const handleBackToCategories = () => {
     setSelectedCategory(null);
+  };
+
+  const handleRarityChange = (rarity) => {
+    setSelectedRarity(rarity);
   };
 
   const cardVariants = {
@@ -87,10 +73,14 @@ export default function HomePage() {
     return <LoadingScreen />;
   }
 
+  const filteredNFTs = selectedCategory
+    ? nftData[selectedCategory].filter(nft => selectedRarity === '' || nft.rarity === selectedRarity)
+    : [];
+
   return (
-    <div className="flex flex-col min-h-screen bg-gray-900 text-gray-200">
+    <div className="flex flex-col min-h-screen text-gray-200" style={{ backgroundColor: '#050D14' }}>
       <Navbar />
-      <main className="flex-1 p-4 relative flex items-center justify-center nft-background">
+      <main className={`flex-1 flex ${selectedCategory ? 'overflow-hidden' : 'items-center justify-center'} p-4 relative`}>
         {selectedCategory ? (
           <>
             <button
@@ -100,47 +90,57 @@ export default function HomePage() {
               <FaArrowLeft className="text-2xl" />
               Volver
             </button>
-            <h1 className="section-title">{selectedCategory} NFTs</h1>
-            <motion.div
-              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 w-full max-w-screen-xl"
-              initial="hidden"
-              animate="visible"
-              exit="exit"
-              variants={cardVariants}
-              transition={{
-                duration: 0.3,
-                ease: "easeInOut",
-                staggerChildren: 0.1,
-              }}
-            >
-              {nftData[selectedCategory].map((nft) => (
-                <motion.div key={nft.id} variants={cardVariants}>
-                  <NFTCard nft={nft} />
+            <div className="flex">
+              <RarityFilter selectedRarity={selectedRarity} onRarityChange={handleRarityChange} />
+              <div className="flex-1 ml-4">
+                <h1 className="section-title mb-4">{selectedCategory} NFTs</h1>
+                <motion.div
+                  className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 w-full max-w-screen-xl"
+                  initial="hidden"
+                  animate="visible"
+                  exit="exit"
+                  variants={cardVariants}
+                  transition={{
+                    duration: 0.3,
+                    ease: "easeInOut",
+                    staggerChildren: 0.1,
+                  }}
+                >
+                  {filteredNFTs.map((nft) => (
+                    <motion.div key={nft.id} variants={cardVariants}>
+                      <NFTCard nft={nft} />
+                    </motion.div>
+                  ))}
                 </motion.div>
-              ))}
-            </motion.div>
+              </div>
+            </div>
           </>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-8 w-full max-w-screen-xl h-[70vh] flex items-center">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-8 w-full h-full">
             {categories.map((category) => (
               <div
                 key={category.id}
-                className="relative flex flex-col items-center justify-center bg-gray-800 rounded-lg cursor-pointer hover:bg-gray-700 transition-transform transform hover:scale-105 overflow-hidden group h-[400px] md:h-[500px] lg:h-[600px] w-full"
-                onClick={() => handleCategoryClick(category.name)}
+                className={`relative flex flex-col items-center justify-center bg-gray-800 rounded-lg ${
+                  category.clickable ? 'cursor-pointer hover:bg-gray-700' : 'pointer-events-none'
+                } transition-transform transform hover:scale-105 overflow-hidden group`}
+                onClick={() => handleCategoryClick(category)}
+                style={{ height: 'calc(200vh / 3)', maxHeight: '600px' }} // Ajusta la altura de cada categoría
               >
                 <img
                   src={category.image}
                   alt={category.name}
                   className="absolute inset-0 w-full h-full object-cover transition-opacity duration-300 group-hover:opacity-60"
                 />
-                <div className="relative z-10 flex flex-col items-center justify-center p-8 text-center">
-                  <div className="mb-4 flex items-center justify-center w-full">
-                    {category.icon}
+                {category.clickable && (
+                  <div className="relative z-10 flex flex-col items-center justify-center p-8 text-center">
+                    <div className="mb-4 flex items-center justify-center w-full">
+                      {category.icon}
+                    </div>
+                    <h2 className="text-3xl font-bold text-white uppercase">
+                      {category.name}
+                    </h2>
                   </div>
-                  <h2 className="text-3xl font-bold text-white uppercase">
-                    {category.name}
-                  </h2>
-                </div>
+                )}
               </div>
             ))}
           </div>

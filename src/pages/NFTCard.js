@@ -1,122 +1,166 @@
-// src/components/NFTCard.js
+// src/pages/NFTCard.js
 
 import React, { useState } from 'react';
-import { FaShoppingCart } from 'react-icons/fa';
 import { motion } from 'framer-motion';
+import Modal from '../components/Modal'; // Asegúrate de que la ruta sea correcta
+import '../index.css'; // Asegúrate de que la ruta sea correcta
 
-export function NFTCard({ nft }) {
-  // Definir los colores de rareza
-  const rarityColor = {
-    Common: '#cccccc',
-    Uncommon: '#4caf50',
-    Rare: '#2196f3',
-    Epic: '#9c27b0',
-    Legendary: '#ff9800',
+// Estilos de rareza
+const rarityStyles = {
+  Common: {
+    color: '#cccccc',
+    gradient: 'linear-gradient(135deg, rgba(200,200,200,0.2), rgba(0,0,0,0))',
+  },
+  Uncommon: {
+    color: '#4caf50',
+    gradient: 'linear-gradient(135deg, rgba(76,175,80,0.2), rgba(0,0,0,0))',
+  },
+  Rare: {
+    color: '#2196f3',
+    gradient: 'linear-gradient(135deg, rgba(33,150,243,0.2), rgba(0,0,0,0))',
+  },
+  Epic: {
+    color: '#9c27b0',
+    gradient: 'linear-gradient(135deg, rgba(156,39,176,0.2), rgba(0,0,0,0))',
+  },
+  Legendary: {
+    color: '#ff9800',
+    gradient: 'linear-gradient(135deg, rgba(255,152,0,0.2), rgba(0,0,0,0))',
+  },
+};
+
+export default function NFTCard({ nft }) {
+  const [isHovered, setHovered] = useState(false);
+  const [isModalOpen, setModalOpen] = useState(false);
+
+  const handleHover = () => setHovered(true);
+  const handleLeave = () => setHovered(false);
+
+  const rarity = nft.rarity;
+  const { color, gradient } = rarityStyles[rarity] || rarityStyles.Common;
+
+  const handleBuyClick = () => {
+    setModalOpen(true);
   };
 
-  // Estado para controlar si la tarjeta está volteada
-  const [flipped, setFlipped] = useState(false);
-
-  // Asignar el color de rareza
-  const rarityColorStyle = { color: rarityColor[nft.rarity] || '#cccccc' };
-
-  // Función para manejar el giro de la tarjeta
-  const handleFlip = () => {
-    setFlipped(!flipped);
-  };
-
-  // Variantes de animación para el giro
-  const cardVariants = {
-    front: { rotateY: 0 },
-    back: { rotateY: 180 },
+  const handleCloseModal = () => {
+    setModalOpen(false);
   };
 
   return (
-    <motion.div
-      className="nft-card"
-      style={{ perspective: 1000 }} // Necesario para el efecto 3D
-      onClick={handleFlip}
-    >
+    <>
       <motion.div
-        className="nft-card-inner"
-        animate={flipped ? 'back' : 'front'}
-        variants={cardVariants}
-        transition={{ duration: 0.3 }} // Animación más rápida
+        className="nft-card"
+        initial={{ scale: 1 }}
+        whileHover={{ scale: 1.05, boxShadow: `0 0 10px ${color}` }} // Restaurar efecto de borde de rareza
+        onMouseEnter={handleHover}
+        onMouseLeave={handleLeave}
         style={{
-          transformStyle: 'preserve-3d',
           position: 'relative',
-          width: '100%',
-          height: '100%',
+          margin: '20px auto',
+          width: '300px',
+          height: '400px',
+          borderRadius: '16px',
+          overflow: 'hidden',
+          cursor: 'pointer',
+          backgroundColor: 'transparent', // Asegurar que el fondo sea transparente
+          border: `2px solid #111214`, // Bordes actualizados a #111214
+          display: 'flex',
+          flexDirection: 'column',
         }}
       >
-        {/* Parte frontal de la tarjeta */}
-        <div
-          className="nft-card-front"
-          style={{
-            position: 'absolute',
-            width: '100%',
-            height: '100%',
-            backfaceVisibility: 'hidden',
-            backgroundColor: '#333',
-            borderRadius: '12px',
-            overflow: 'hidden',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'space-between',
-            boxShadow: '0 4px 20px rgba(0, 0, 0, 0.8)',
-            cursor: 'pointer',
-          }}
-        >
-          <div className="nft-header p-4 flex justify-between items-center">
-            <div className="rarity" style={rarityColorStyle}>
-              {nft.rarity}
-            </div>
-            <div className="price">{nft.price}</div>
-          </div>
-          <div className="nft-image">
-            <img
-              src={nft.image}
-              alt={nft.name}
-              className="w-full h-60 object-cover rounded-t-lg shadow-inner"
-            />
-          </div>
-          <div className="nft-footer p-4 flex flex-col justify-center">
-            <h3 className="font-bold text-lg mb-2 text-center">{nft.name}</h3>
-            <button className="buy-now-button">
-              <FaShoppingCart className="mr-2" />
-              Buy Now
-            </button>
-          </div>
+        <div style={{ flex: 3 }}>
+          <img
+            src={nft.image}
+            alt={nft.name}
+            style={{
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+              borderTopLeftRadius: '12px',
+              borderTopRightRadius: '12px',
+            }}
+          />
         </div>
-
-        {/* Parte trasera de la tarjeta */}
         <div
-          className="nft-card-back"
           style={{
-            position: 'absolute',
-            width: '100%',
-            height: '100%',
-            backfaceVisibility: 'hidden',
-            transform: 'rotateY(180deg)',
-            backgroundColor: '#444',
-            borderRadius: '12px',
-            overflow: 'hidden',
+            flex: 1,
+            backgroundColor: '#1E1F22', // Color base del cajón inferior
+            borderBottomLeftRadius: '12px',
+            borderBottomRightRadius: '12px',
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'center',
             alignItems: 'center',
-            boxShadow: '0 4px 20px rgba(0, 0, 0, 0.8)',
-            padding: '16px',
+            padding: '10px',
+            position: 'relative',
+            backgroundImage: gradient, // Aplicar el degradado de rareza
+            backgroundSize: 'cover',
+            backgroundRepeat: 'no-repeat',
           }}
         >
-          <div className="nft-info text-center">
-            <p className="description text-sm text-gray-300">
-              {nft.description}
-            </p>
-            <div className="separator my-4"></div>
+          <div
+            style={{
+              fontSize: '18px',
+              fontWeight: 'bold',
+              color: '#D5D7DA', // Color del nombre
+            }}
+          >
+            {nft.name}
           </div>
+          {!isHovered && (
+            <div style={{ fontSize: '16px', color: '#fff', marginTop: '5px' }}>
+              <span style={{ color: '#F7A102' }}>🪙</span> ${nft.price}
+            </div>
+          )}
+          {isHovered && (
+            <button
+              className="buy-now-button"
+              style={{
+                padding: '8px 16px',
+                backgroundColor: '#5E67EE',
+                color: '#fff',
+                borderRadius: '8px',
+                border: 'none',
+                cursor: 'pointer',
+                fontSize: '14px',
+                fontWeight: 'bold',
+                marginTop: '10px',
+                transition: 'background-color 0.3s ease',
+                boxShadow: 'none', // Asegurar que no haya sombra
+              }}
+              onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#4A53C7'}
+              onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#5E67EE'}
+              onClick={handleBuyClick} // Abrir el modal al hacer clic
+            >
+              Comprar ahora por ${nft.price}
+            </button>
+          )}
+        </div>
+        <div
+          className="availability"
+          style={{
+            position: 'absolute',
+            top: '10px',
+            right: '10px',
+            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+            borderRadius: '8px',
+            padding: '5px 10px',
+            fontSize: '14px',
+            fontWeight: 'bold',
+            color: '#fff',
+          }}
+        >
+          {nft.availability}/{nft.initialAvailability}
         </div>
       </motion.div>
-    </motion.div>
+
+      {/* Mostrar el modal si isModalOpen es true */}
+      <Modal
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+        nft={nft}
+      />
+    </>
   );
 }
