@@ -1,8 +1,15 @@
 // src/pages/Navbar.js
-import React from 'react';
-import { FaWallet } from 'react-icons/fa'; // Importa el icono de la billetera
+import React, { useState } from 'react';
+import { FaWallet } from 'react-icons/fa';
+import WalletModal from '../components/WalletModal'; // Importa el nuevo modal
 
-function Navbar({ onOpenWallet }) {
+function Navbar() {
+  const [isWalletModalOpen, setWalletModalOpen] = useState(false);
+
+  const handleToggleWalletModal = () => {
+    setWalletModalOpen((prev) => !prev);
+  };
+
   return (
     <header className="bg-green-800 text-white flex items-center p-4 relative">
       {/* Logo izquierdo */}
@@ -26,13 +33,16 @@ function Navbar({ onOpenWallet }) {
       {/* Opciones de la barra de navegación */}
       <div className="absolute right-4 top-1/2 transform -translate-y-1/2">
         <button
-          onClick={onOpenWallet}
+          onClick={handleToggleWalletModal}
           className="flex items-center bg-green-600 px-4 py-2 rounded-lg hover:bg-green-700 transition-colors duration-300"
         >
           <FaWallet className="mr-2" />
           Conectar Wallet
         </button>
       </div>
+
+      {/* Modal de Conectar Wallet */}
+      <WalletModal isOpen={isWalletModalOpen} onClose={handleToggleWalletModal} />
     </header>
   );
 }
