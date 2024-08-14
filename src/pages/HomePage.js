@@ -1,15 +1,15 @@
 // src/pages/HomePage.js
 
 import React, { useState, useEffect } from "react";
-import NFTCard from './NFTCard'; // Asegúrate de que la ruta sea correcta
+import NFTCard from './NFTCard';
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 import { FaBuilding, FaDragon, FaPaw, FaArrowLeft } from "react-icons/fa";
 import { motion } from "framer-motion";
 import LoadingScreen from "./LoadingScreen";
-import nftData from '../data/nftData'; // Importa nftData desde el archivo
-import RarityFilter from '../components/RarityFilter'; // Importa el componente de filtro
-import './HomePage.css'; // Importa el archivo CSS aquí
+import nftData from '../data/nftData';
+import RarityFilter from '../components/RarityFilter';
+import './HomePage.css';
 
 const categories = [
   {
@@ -17,7 +17,7 @@ const categories = [
     name: "Construcciones",
     icon: <FaBuilding className="text-green-400 text-6xl" />,
     image: "/images/construcciones.jpg",
-    clickable: false, // No se puede hacer clic
+    clickable: false,
   },
   {
     id: 2,
@@ -31,7 +31,7 @@ const categories = [
     name: "Mascotas",
     icon: <FaPaw className="text-yellow-400 text-6xl" />,
     image: "/images/mascotas.jpg",
-    clickable: false, // No se puede hacer clic
+    clickable: false,
   },
 ];
 
@@ -43,7 +43,7 @@ export default function HomePage() {
   useEffect(() => {
     const timer = setTimeout(() => {
       setLoading(false);
-    }, 4000); // Ajusta el tiempo de carga según sea necesario
+    }, 4000);
 
     return () => clearTimeout(timer);
   }, []);
@@ -51,7 +51,7 @@ export default function HomePage() {
   const handleCategoryClick = (category) => {
     if (category.clickable) {
       setSelectedCategory(category.name);
-      setSelectedRarity(''); // Resetear filtro al cambiar categoría
+      setSelectedRarity('');
     }
   };
 
@@ -80,7 +80,7 @@ export default function HomePage() {
   return (
     <div className="flex flex-col min-h-screen text-gray-200" style={{ backgroundColor: '#050D14' }}>
       <Navbar />
-      <main className={`flex-1 flex ${selectedCategory ? 'overflow-hidden' : 'items-center justify-center'} p-4 relative`}>
+      <main className={`flex-1 ${selectedCategory ? 'overflow-hidden' : 'items-center justify-center'} p-4 relative`}>
         {selectedCategory ? (
           <>
             <button
@@ -90,12 +90,28 @@ export default function HomePage() {
               <FaArrowLeft className="text-2xl" />
               Volver
             </button>
-            <div className="flex">
-              <RarityFilter selectedRarity={selectedRarity} onRarityChange={handleRarityChange} />
-              <div className="flex-1 ml-4">
-                <h1 className="section-title mb-4">{selectedCategory} NFTs</h1>
+            <div className="flex flex-row w-full max-w-screen-xl mx-auto">
+              <div className="w-1/4 p-4" style={{ alignSelf: 'flex-start', marginTop: '95px' }}>
+                <RarityFilter selectedRarity={selectedRarity} onRarityChange={handleRarityChange} />
+              </div>
+              <div className="w-3/4 p-4">
+                <h1
+                  className="section-title mb-4 text-center"
+                  style={{
+                    maxWidth: 'calc(100% - 1px)',
+                    margin: '0 auto',
+                    fontSize: '2rem',
+                    fontWeight: 'bold',
+                    color: '#fff',
+                    padding: '10px 0',
+                    textTransform: 'uppercase',
+                    borderBottom: '3px solid #5E67EE',
+                  }}
+                >
+                  {selectedCategory} NFTs
+                </h1>
                 <motion.div
-                  className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 w-full max-w-screen-xl"
+                  className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-3 mx-auto"
                   initial="hidden"
                   animate="visible"
                   exit="exit"
@@ -116,7 +132,7 @@ export default function HomePage() {
             </div>
           </>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-8 w-full h-full">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-10 w-full h-full max-w-screen-xl mx-auto">
             {categories.map((category) => (
               <div
                 key={category.id}
@@ -124,7 +140,11 @@ export default function HomePage() {
                   category.clickable ? 'cursor-pointer hover:bg-gray-700' : 'pointer-events-none'
                 } transition-transform transform hover:scale-105 overflow-hidden group`}
                 onClick={() => handleCategoryClick(category)}
-                style={{ height: 'calc(200vh / 3)', maxHeight: '600px' }} // Ajusta la altura de cada categoría
+                style={{
+                  height: 'calc(66vh)', // Aumenta la altura para que las imágenes no se recorten
+                  maxHeight: '550px', // Ajusta la altura máxima
+                  width: '100%', // Mantén el ancho completo de la columna
+                }}
               >
                 <img
                   src={category.image}

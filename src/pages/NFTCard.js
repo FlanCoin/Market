@@ -59,24 +59,24 @@ export default function NFTCard({ nft }) {
           position: 'relative',
           margin: '20px auto',
           width: '300px',
-          height: '400px',
+          height: '420px', // Altura ajustada para permitir espacio suficiente para la imagen y el botón
           borderRadius: '16px',
           overflow: 'hidden',
           cursor: 'pointer',
-          backgroundColor: 'transparent', // Asegurar que el fondo sea transparente
-          border: `2px solid #111214`, // Bordes actualizados a #111214
+          backgroundColor: 'transparent',
+          border: `2px solid #111214`,
           display: 'flex',
           flexDirection: 'column',
         }}
       >
-        <div style={{ flex: 3 }}>
+        <div style={{ flex: 3, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <img
             src={nft.image}
             alt={nft.name}
             style={{
-              width: '100%',
-              height: '100%',
-              objectFit: 'cover',
+              maxWidth: '100%',
+              maxHeight: '100%',
+              objectFit: 'contain',
               borderTopLeftRadius: '12px',
               borderTopRightRadius: '12px',
             }}
@@ -85,7 +85,7 @@ export default function NFTCard({ nft }) {
         <div
           style={{
             flex: 1,
-            backgroundColor: '#1E1F22', // Color base del cajón inferior
+            backgroundColor: '#1E1F22',
             borderBottomLeftRadius: '12px',
             borderBottomRightRadius: '12px',
             display: 'flex',
@@ -94,7 +94,7 @@ export default function NFTCard({ nft }) {
             alignItems: 'center',
             padding: '10px',
             position: 'relative',
-            backgroundImage: gradient, // Aplicar el degradado de rareza
+            backgroundImage: gradient,
             backgroundSize: 'cover',
             backgroundRepeat: 'no-repeat',
           }}
@@ -103,7 +103,8 @@ export default function NFTCard({ nft }) {
             style={{
               fontSize: '18px',
               fontWeight: 'bold',
-              color: '#D5D7DA', // Color del nombre
+              color: '#D5D7DA',
+              textAlign: 'center',
             }}
           >
             {nft.name}
@@ -127,11 +128,11 @@ export default function NFTCard({ nft }) {
                 fontWeight: 'bold',
                 marginTop: '10px',
                 transition: 'background-color 0.3s ease',
-                boxShadow: 'none', // Asegurar que no haya sombra
+                boxShadow: 'none',
               }}
               onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#4A53C7'}
               onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#5E67EE'}
-              onClick={handleBuyClick} // Abrir el modal al hacer clic
+              onClick={handleBuyClick}
             >
               Comprar ahora por ${nft.price}
             </button>
