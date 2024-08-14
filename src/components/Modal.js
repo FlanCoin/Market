@@ -39,29 +39,18 @@ export default function Modal({ isOpen, onClose, nft }) {
           boxShadow: '0 0 15px rgba(0, 0, 0, 0.5)',
         }}
       >
-        {/* Lado izquierdo con la imagen */}
+        {/* Lado izquierdo con la imagen de compra */}
         <div
           style={{
             flex: '40%',
-            backgroundImage: `url(${nft.image})`, // Imagen del NFT
+            backgroundImage: `url(/images/compra.png)`, // Imagen de compra.png
             backgroundSize: 'cover',
             backgroundPosition: 'center',
           }}
-        >
-          <img
-            src={nft.image}
-            alt={nft.name}
-            style={{
-              width: '100%',
-              height: '100%',
-              objectFit: 'cover',
-              borderRadius: '16px',
-            }}
-          />
-        </div>
-        {/* Lado derecho con la información y botón */}
+        />
+        {/* Lado derecho con la información y vista previa de la carta */}
         <div style={{ flex: '60%', padding: '20px', display: 'flex', flexDirection: 'column' }}>
-          {/* Parte superior */}
+          {/* Parte superior con descripción */}
           <div
             style={{
               flex: '1',
@@ -74,7 +63,7 @@ export default function Modal({ isOpen, onClose, nft }) {
             <h2 style={{ margin: 0, fontSize: '1.5rem' }}>{nft.name}</h2>
             <p style={{ fontSize: '1.25rem' }}>{nft.description}</p> {/* Descripción del NFT */}
           </div>
-          {/* Parte inferior */}
+          {/* Parte inferior con vista previa de la carta y botón */}
           <div
             style={{
               flex: '1',
@@ -87,7 +76,20 @@ export default function Modal({ isOpen, onClose, nft }) {
               justifyContent: 'center',
             }}
           >
-            <button
+            <img
+              src={nft.image}
+              alt={nft.name}
+              style={{
+                width: '100%',
+                maxWidth: '150px', // Vista previa más pequeña de la carta
+                borderRadius: '12px',
+                marginBottom: '10px',
+                objectFit: 'cover',
+                boxShadow: '0 0 10px rgba(0, 0, 0, 0.5)',
+              }}
+            />
+            <motion.button
+              whileHover={{ scale: 1.05 }} // Animación de zoom al hacer hover
               onClick={() => {
                 // Lógica para comprar el lote
                 alert(`Comprando ${nft.name}`);
@@ -104,8 +106,8 @@ export default function Modal({ isOpen, onClose, nft }) {
                 transition: 'background-color 0.3s ease',
               }}
             >
-              Comprar por ${nft.price} flanes
-            </button>
+              Comprar por {nft.price} FLANES
+            </motion.button>
           </div>
         </div>
       </motion.div>
