@@ -90,7 +90,7 @@ export default function HomePage() {
               <FaArrowLeft className="text-2xl" />
               Volver
             </button>
-            <div className="flex flex-row w-full max-w-screen-xl mx-auto">
+            <div className="flex flex-row w-full max-w-screen-xl mx-auto" style={{ marginLeft: 'auto' }}>
               <div className="w-1/4 p-4" style={{ alignSelf: 'flex-start', marginTop: '95px' }}>
                 <RarityFilter selectedRarity={selectedRarity} onRarityChange={handleRarityChange} />
               </div>
@@ -142,8 +142,8 @@ export default function HomePage() {
                 onClick={() => handleCategoryClick(category)}
                 style={{
                   height: 'calc(66vh)', // Aumenta la altura para que las imágenes no se recorten
-                  maxHeight: '550px', // Ajusta la altura máxima
-                  width: '100%', // Mantén el ancho completo de la columna
+                  maxHeight: '450px', // Ajusta la altura máxima
+                  width: '105%', // Mantén el ancho completo de la columna
                 }}
               >
                 <img

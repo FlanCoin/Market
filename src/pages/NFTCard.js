@@ -111,7 +111,7 @@ export default function NFTCard({ nft }) {
           </div>
           {!isHovered && (
             <div style={{ fontSize: '16px', color: '#fff', marginTop: '5px' }}>
-              <span style={{ color: '#F7A102' }}>🪙</span> ${nft.price}
+              <span style={{ color: '#F7A102' }}>💰</span> ${nft.price}
             </div>
           )}
           {isHovered && (

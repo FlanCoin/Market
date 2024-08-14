@@ -9,24 +9,25 @@ export default function LoadingScreen() {
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
-    const duration = 3000; // Duración total de la animación en ms
-    const interval = 30; // Intervalo en ms para actualizar el progreso
-    const totalSteps = duration / interval;
+    const startTime = performance.now(); // Marca el tiempo de inicio
 
-    let step = 0;
-    const updateProgress = () => {
-      step += 1;
-      const progress = Math.min((step / totalSteps) * 100, 100);
+    const updateProgress = (duration) => {
+      const elapsedTime = performance.now() - startTime;
+      const progress = Math.min((elapsedTime / duration) * 100, 100);
       setProgress(progress);
 
       if (progress < 100) {
-        setTimeout(updateProgress, interval);
+        requestAnimationFrame(() => updateProgress(duration));
       }
     };
 
-    updateProgress();
+    window.onload = () => {
+      const totalLoadTime = performance.now() - startTime;
+      const duration = totalLoadTime > 3000 ? totalLoadTime : 3000; // Garantizar que la animación dure al menos 3 segundos
+      updateProgress(duration);
+    };
 
-    return () => clearTimeout(updateProgress); // Limpia el intervalo si el componente se desmonta
+    return () => {};
   }, []);
 
   return (

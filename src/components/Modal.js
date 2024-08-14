@@ -106,7 +106,7 @@ export default function Modal({ isOpen, onClose, nft }) {
                 transition: 'background-color 0.3s ease',
               }}
             >
-              Comprar por {nft.price} FLANES
+              Comprar por {nft.price}
             </motion.button>
           </div>
         </div>
