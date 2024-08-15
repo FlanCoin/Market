@@ -1,10 +1,62 @@
 // src/components/WalletModal.js
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { FaExternalLinkAlt, FaMagic } from 'react-icons/fa'; // Usar íconos genéricos
 import '../index.css';
-
+import { SolanaConnect } from "solana-connect";
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content'
+import Web3Methods from './Web3Methods.js';
 export default function WalletModal({ isOpen, onClose }) {
+  let RPCMethods = Web3Methods.getInstance();
+  const [solConnect, setSolConnect] = useState(null);
+  const [wallet, setWallet] = useState(null);
+  const [balance, setBalance] = useState(null);
+  const [username, setUsername] = useState('');
+
+  useEffect(() => {
+    if(!solConnect){
+      let tmp = new SolanaConnect();
+      tmp.onWalletChange(async (adapter) => {
+        if(adapter){
+          let cartera = adapter.publicKey.toString();
+          setWallet(cartera);
+          let flanBalance = await RPCMethods.getTokenAccountsByOwner(cartera);
+          setBalance(flanBalance);
+          //let price = await getFlanPrice();
+          console.log("cartera: ", cartera);
+          console.log("balance", flanBalance)
+        }
+      });
+      
+      tmp.onVisibilityChange((isOpen) => {
+        //console.log("menu visible:", isOpen);
+      });
+
+      setSolConnect(tmp);
+    }
+  }, [])
+  const openConnect = () => {
+    withReactContent(Swal).fire({
+      title: "Input your exact Flancraft's username",
+      input: "text",
+      inputAttributes: {
+        autocapitalize: "off"
+      },
+      showCancelButton: true,
+      confirmButtonText: "Set username",
+      showLoaderOnConfirm: true,
+      preConfirm: (login) => {
+        setUsername(login);
+      }
+    }).then((result) => {
+      console.log(result);
+      if(result.isConfirmed && result.value != undefined && result.value != null && result.value != ''){
+        solConnect.openMenu();
+      }
+    });
+    
+  }
   useEffect(() => {
     const handleOutsideClick = (event) => {
       if (event.target.classList.contains('wallet-modal-overlay')) {
@@ -22,6 +74,12 @@ export default function WalletModal({ isOpen, onClose }) {
   }, [isOpen, onClose]);
 
   if (!isOpen) return null;
+
+  
+  
+  
+
+  
 
   return (
     <div
@@ -51,7 +109,7 @@ export default function WalletModal({ isOpen, onClose }) {
           width: '250px',
         }}
       >
-        <h3 style={{ color: '#fff', marginBottom: '15px', fontSize: '16px' }}>Conectar Wallet</h3>
+        <h3 style={{ color: '#fff', marginBottom: '15px', fontSize: '16px' }} >Conectar Wallet</h3>
         <button
           style={{
             backgroundColor: '#2C2F3E', // Color Solana
@@ -67,7 +125,7 @@ export default function WalletModal({ isOpen, onClose }) {
             alignItems: 'center',
           }}
           onClick={() => {
-            alert('Conectar con Solflare');
+            openConnect();
             onClose();
           }}
         >
