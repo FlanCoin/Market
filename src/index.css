@@ -209,3 +209,54 @@ main {
     padding: 2rem;
   }
 }
+/* Estilos para el input de SweetAlert2 */
+.minecraft-input {
+  background-color: #282828;
+  border: 2px solid #3c3c3c;
+  color: #ffffff !important; /* Asegura que el texto sea blanco */
+  font-family: 'Press Start 2P', cursive;
+  padding: 10px;
+  font-size: 14px;
+  width: 100%;
+  border-radius: 5px;
+  box-shadow: inset 2px 2px 4px #000, inset -2px -2px 4px #555;
+}
+
+/* Asegura que el texto placeholder también sea legible */
+.minecraft-input::placeholder {
+  color: #b3b3b3; /* Placeholder en gris claro */
+}
+
+/* Estilo para el botón de confirmación en SweetAlert2 */
+.minecraft-button {
+  background-color: #3c3c3c;
+  color: #fff;
+  font-family: 'Press Start 2P', cursive;
+  border: 2px solid #2e2e2e;
+  padding: 10px 20px;
+  box-shadow: 0 4px #2e2e2e;
+  font-size: 14px;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.minecraft-button:active {
+  background-color: #2e2e2e;
+  box-shadow: 0 2px #1e1e1e;
+  transform: translateY(2px);
+}
+
+/* Ajustes generales para la ventana */
+.minecraft-popup {
+  background-color: #333;
+  border: 3px solid #2e2e2e;
+  box-shadow: 0 0 10px #000;
+  border-radius: 8px;
+}
+
+.minecraft-title {
+  color: #fff;
+  font-family: 'Press Start 2P', cursive;
+  font-size: 16px;
+  text-shadow: 2px 2px 4px #000;
+}
