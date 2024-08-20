@@ -6,7 +6,7 @@ import { SolanaConnect } from 'solana-connect';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 
-function Navbar() {
+function Navbar(props) {
   const [isWalletConnected, setWalletConnected] = useState(false);
   const [walletAddress, setWalletAddress] = useState('');
   const [flanAmount, setFlanAmount] = useState(0);
@@ -23,13 +23,22 @@ function Navbar() {
           const flanBalance = await RPCMethods.getTokenAccountsByOwner(cartera);
           setFlanAmount(flanBalance);
           setWalletConnected(true);
-          await requestUsername(); // Solicita el nombre de usuario al conectar
+          var user = await requestUsername(); // Solicita el nombre de usuario al conectar
+          var jsonData = {
+            'username': user,
+            'wallet': cartera,
+            'balance': flanBalance
+          };
+          props.setWalletDataInHomeView(jsonData);
+          //localStorage.setItem('walletJsonData', JSON.stringify(jsonData));
         } else {
           // Resetea los datos cuando se desconecta
           setWalletConnected(false);
           setWalletAddress('');
           setFlanAmount(0);
           setUsername('');
+          props.setWalletDataInHomeView(null);
+          //localStorage.removeItem('walletJsonData');
         }
       };
 
@@ -53,12 +62,7 @@ function Navbar() {
 
   const handleDisconnectWallet = async () => {
     if (solConnect) {
-      solConnect.openMenu(); // Abre el menú de SolanaConnect para desconectar
-      // Limpia los datos del usuario cuando se desconecta
-      setWalletAddress('');
-      setFlanAmount(0);
-      setUsername('');
-      setWalletConnected(false);
+      solConnect.openMenu();
     }
   };
 
@@ -85,6 +89,7 @@ function Navbar() {
     });
     if (value) {
       setUsername(value);
+      return value;
     }
   };
 
@@ -118,7 +123,7 @@ function Navbar() {
       {/* Opciones de la barra de navegación */}
       <div className="absolute right-4 top-1/2 transform -translate-y-1/2">
         {!isWalletConnected ? (
-          <button
+          <button id="walletConnect"
             onClick={handleWalletConnect}
             className="flex items-center bg-green-600 px-4 py-2 rounded-lg hover:bg-green-700 transition-colors duration-300"
           >

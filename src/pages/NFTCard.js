@@ -29,23 +29,33 @@ const rarityStyles = {
   },
 };
 
-export default function NFTCard({ nft }) {
+export default function NFTCard(props) {
   const [isHovered, setHovered] = useState(false);
   const [isModalOpen, setModalOpen] = useState(false);
-
+  const [walletData, setWalletData] = useState(null);
   const handleHover = () => setHovered(true);
   const handleLeave = () => setHovered(false);
 
-  const rarity = nft.rarity;
+  const rarity = props.nft.rarity;
   const { color, gradient } = rarityStyles[rarity] || rarityStyles.Common;
 
   const handleBuyClick = () => {
+    var walletDataFromHome = props.getWalletValues();
+    setWalletData(walletDataFromHome);
     setModalOpen(true);
   };
+
+  const getWalletData = () => {
+    return props.getWalletValues();
+  }
 
   const handleCloseModal = () => {
     setModalOpen(false);
   };
+
+  const openSolConnect = (value) => {
+    props.openSolConnect(value);
+  }
 
   return (
     <>
@@ -71,8 +81,8 @@ export default function NFTCard({ nft }) {
       >
         <div style={{ flex: 3, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <img
-            src={nft.image}
-            alt={nft.name}
+            src={props.nft.image}
+            alt={props.nft.name}
             style={{
               maxWidth: '100%',
               maxHeight: '100%',
@@ -107,11 +117,11 @@ export default function NFTCard({ nft }) {
               textAlign: 'center',
             }}
           >
-            {nft.name}
+            {props.nft.name}
           </div>
           {!isHovered && (
             <div style={{ fontSize: '16px', color: '#fff', marginTop: '5px' }}>
-              <span style={{ color: '#F7A102' }}>💰</span> ${nft.price}
+              <span style={{ color: '#F7A102' }}>💰</span> ${props.nft.price}
             </div>
           )}
           {isHovered && (
@@ -134,7 +144,7 @@ export default function NFTCard({ nft }) {
               onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#5E67EE'}
               onClick={handleBuyClick}
             >
-              Comprar ahora por ${nft.price}
+              Comprar ahora por ${props.nft.price}
             </button>
           )}
         </div>
@@ -152,7 +162,7 @@ export default function NFTCard({ nft }) {
             color: '#fff',
           }}
         >
-          {nft.availability}/{nft.initialAvailability}
+          {props.nft.availability}/{props.nft.initialAvailability}
         </div>
       </motion.div>
 
@@ -160,7 +170,9 @@ export default function NFTCard({ nft }) {
       <Modal
         isOpen={isModalOpen}
         onClose={handleCloseModal}
-        nft={nft}
+        nft={props.nft}
+        openSolConnect={openSolConnect}
+        getWalletData={getWalletData}
       />
     </>
   );

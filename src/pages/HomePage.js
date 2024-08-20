@@ -39,6 +39,22 @@ export default function HomePage() {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedRarity, setSelectedRarity] = useState('');
   const [loading, setLoading] = useState(true);
+  const [walletData, setWalletData] = useState(null);
+
+  const parentHandleGetWalletValues = (data) => {
+    setWalletData(data);
+  }
+
+  const parentHandleSendWalletValues = () => {
+    return walletData;
+  }
+
+  const parentHandleOpenWalletModel= (data) => {
+    console.log(data);
+    if(data == false){
+      document.getElementById('walletConnect').click();
+    }
+  }
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -79,7 +95,7 @@ export default function HomePage() {
 
   return (
     <div className="flex flex-col min-h-screen text-gray-200" style={{ backgroundColor: '#050D14' }}>
-      <Navbar />
+      <Navbar setWalletDataInHomeView={parentHandleGetWalletValues}/>
       <main className={`flex-1 ${selectedCategory ? 'overflow-hidden' : 'items-center justify-center'} p-4 relative`}>
         {selectedCategory ? (
           <>
@@ -88,7 +104,7 @@ export default function HomePage() {
               className="back-button"
             >
               <FaArrowLeft className="text-2xl" />
-              Volver
+              Volver 
             </button>
             <div className="flex flex-row w-full max-w-screen-xl mx-auto" style={{ marginLeft: 'auto' }}>
               <div className="w-1/4 p-4" style={{ alignSelf: 'flex-start', marginTop: '95px' }}>
@@ -124,7 +140,7 @@ export default function HomePage() {
                 >
                   {filteredNFTs.map((nft) => (
                     <motion.div key={nft.id} variants={cardVariants}>
-                      <NFTCard nft={nft} />
+                      <NFTCard nft={nft} getWalletValues={parentHandleSendWalletValues} openSolConnect={parentHandleOpenWalletModel}/>
                     </motion.div>
                   ))}
                 </motion.div>
