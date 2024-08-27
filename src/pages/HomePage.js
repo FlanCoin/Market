@@ -7,10 +7,11 @@ import Footer from "./Footer";
 import { FaBuilding, FaDragon, FaPaw, FaArrowLeft } from "react-icons/fa";
 import { motion } from "framer-motion";
 import LoadingScreen from "./LoadingScreen";
-import nftData from '../data/nftData';
+//import nftData from '../data/nftData';
+import ApiMethods from '../components/ApiMethods.js';
 import RarityFilter from '../components/RarityFilter';
 import './HomePage.css';
-
+const ApiCalls = ApiMethods.getInstance();
 const categories = [
   {
     id: 1,
@@ -40,7 +41,11 @@ export default function HomePage() {
   const [selectedRarity, setSelectedRarity] = useState('');
   const [loading, setLoading] = useState(true);
   const [walletData, setWalletData] = useState(null);
-
+  const [nftData, setNftData] = useState({
+    Construcciones: [],
+    Monturas: [],
+    Mascotas: []
+  });
   const parentHandleGetWalletValues = (data) => {
     setWalletData(data);
   }
@@ -64,10 +69,18 @@ export default function HomePage() {
     return () => clearTimeout(timer);
   }, []);
 
-  const handleCategoryClick = (category) => {
+  const handleCategoryClick = async (category) => {
     if (category.clickable) {
-      setSelectedCategory(category.name);
-      setSelectedRarity('');
+      setLoading(true);
+      await ApiCalls.getNFTList().then(result => {
+        setNftData(result);
+      }).then(() => {
+        setSelectedCategory(category.name);
+        setSelectedRarity('');
+      
+      });
+      //await ApiCalls.registerBuy('GPreisLP', 'polla', 3);
+      setLoading(false);
     }
   };
 
